@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sent!</title>
+  </head>
+
+  <body>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+      {% csrf_token %}
+      OK Done<br>
+  </body>
+</html>

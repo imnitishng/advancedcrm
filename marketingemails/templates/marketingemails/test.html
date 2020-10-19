@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Audience View</title>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+
+  <body>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+      <form action="{% url 'marketingemails:mailsent' %}" method="post">
+        {% csrf_token %}
+        <input type="checkbox" id="1" name="user_selected" value="one">
+        <label for="1">Option 1</label>
+        <input type="checkbox" id="2" name="user_selected" value="two">
+        <label for="1">Option 2</label>
+        <input type="checkbox" id="3" name="user_selected" value="three">
+        <label for="1">Option 3</label>
+        <input type="submit" value="Send Test Mail">
+      </form>        
+  </body>
+</html>
