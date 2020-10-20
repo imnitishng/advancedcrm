@@ -26,7 +26,7 @@ SECRET_KEY = '#%5v$@k(=)10*^t@vj=_m#m_i0-)!#co1r8r3^3p-@tf^4ttrx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://obscure-plains-88874.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition
