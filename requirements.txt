@@ -7,7 +7,6 @@ mailchimp-marketing==3.0.15
 mailchimp-transactional==1.0.15
 mysql-connector-python==8.0.21
 Pillow==8.0.0
-pkg-resources==0.0.0
 protobuf==3.13.0
 python-dateutil==2.8.1
 pytz==2020.1
