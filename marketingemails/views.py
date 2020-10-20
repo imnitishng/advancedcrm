@@ -1,5 +1,7 @@
 import os
 
+from django.urls import reverse
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.core.mail import get_connection, EmailMultiAlternatives
@@ -24,7 +26,8 @@ def sendmail(request):
                 link.
             """
         context = {
-            'name': name
+            'name': name,
+            "image_url": request.build_absolute_uri(reverse("marketingemails:image_load"))
         }
 
         html_content = render_to_string('mails/campaign1.html', {'context': context})        
