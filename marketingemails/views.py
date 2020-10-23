@@ -1,4 +1,5 @@
 import os
+from django.utils import timezone
 
 from django.urls import reverse
 from django.http import HttpResponse
@@ -13,9 +14,14 @@ from .forms import UserListForm, UserListModelForm
 from .utils import send_mass_html_mail, dictionary_to_str
 
 
+# def index(request):
+#     users = get_list_or_404(User, email_address__isnull=False)
+#     return render(request, 'marketingemails/index.html', {'users': users})
+
 def index(request):
     users = get_list_or_404(User, email_address__isnull=False)
-    return render(request, 'marketingemails/index.html', {'users': users})
+    return render(request, 'marketingemails/create_campaign.html', {'users': users})
+
 
 def sendmail(request):
 
@@ -45,12 +51,27 @@ def sendmail(request):
     user_pkids = request.POST.getlist('user_selected')
     for user_id in user_pkids:
         user = get_object_or_404(User, pk=user_id)
-        subject, text_mail, html_mail = build_email(user, '1')
+        campaign_id = request.session['campaign_id']
+        subject, text_mail, html_mail = build_email(user, campaign_id)
         users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
     
     send_mass_html_mail(users_to_mail_data)
 
     return render(request, 'marketingemails/testmailsent.html')
+
+
+def audience_select(request):
+    campaign = Campaigns(
+        name = request.POST.get('campaign_name'),
+        description = request.POST.get('campaign_desc'),
+        creation_date = timezone.now()
+    )
+    campaign.save()
+    request.session['campaign_id'] = campaign.id
+    
+    users = get_list_or_404(User, email_address__isnull=False)
+    return render(request, 'marketingemails/audience_select.html', {'users': users, 'campaign': campaign})
+
 
 def image_load(request, campaign_id, user_id):
     '''

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Create a new Campaign</title>
+  </head>
+
+  <body>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+      <form action="{% url 'marketingemails:audience_select' %}" method="post">
+        {% csrf_token %}        
+        <label for='campaign_name'>Campaign name:</label><br>
+        <input type="text" id="campaign_name" name="campaign_name"><br>
+        
+        <label for='campaign_desc'>Campaign description:</label><br>
+        <textarea name="campaign_desc" style="width:600px; height:300px;" 
+        placeholder="A short description on what the campaign is for"></textarea><br>    
+        
+        <br><br>Save campaign and move to audience select<br>
+        <input type="submit" value="Save campaign">  
+      </form>        
+  </body>
+</html>
