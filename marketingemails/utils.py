@@ -12,3 +12,6 @@ def send_mass_html_mail(datatuple, fail_silently=False, user=None, password=None
         message.attach_alternative(html, 'text/html')
         messages.append(message)
     return connection.send_messages(messages)
+
+def dictionary_to_str(dic):
+    pass

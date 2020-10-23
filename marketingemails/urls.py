@@ -6,5 +6,5 @@ app_name = 'marketingemails'
 urlpatterns = [
     path('', views.index, name='index'),
     path('sendmail/', views.sendmail, name='mailsent'),
-    path('image_load/', views.image_load, name='image_load'),
+    path('image_load/<str:campaign_id>/<str:user_id>', views.image_load, name='image_load'),
 ]
