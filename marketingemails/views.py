@@ -3,8 +3,7 @@ from django.utils import timezone
 
 from django.urls import reverse
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.shortcuts import get_list_or_404, get_object_or_404, render
+from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
 from django.core.mail import get_connection, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from PIL import Image
@@ -33,10 +32,14 @@ def sendmail(request):
             """
         context = {
             'name': user.name,
-            'link': user.marketing_link,
             'location': user.location_of_interest,
             'image_url': request.build_absolute_uri(
                 reverse("marketingemails:image_load", 
+                    args=(str(campaign_id), str(user.id))
+                )
+            ),
+            'link': request.build_absolute_uri(
+                reverse("marketingemails:redirect_to_yor", 
                     args=(str(campaign_id), str(user.id))
                 )
             )
@@ -52,6 +55,8 @@ def sendmail(request):
     for user_id in user_pkids:
         user = get_object_or_404(User, pk=user_id)
         campaign_id = request.session['campaign_id']
+        user.participated_campaigns.append(campaign_id)
+
         subject, text_mail, html_mail = build_email(user, campaign_id)
         users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
     
@@ -67,7 +72,7 @@ def audience_select(request):
         creation_date = timezone.now()
     )
     campaign.save()
-    request.session['campaign_id'] = campaign.id
+    request.session['campaign_id'] = str(campaign.id)
     
     users = get_list_or_404(User, email_address__isnull=False)
     return render(request, 'marketingemails/audience_select.html', {'users': users, 'campaign': campaign})
@@ -84,8 +89,7 @@ def image_load(request, campaign_id, user_id):
     Input: 
     campaign_id: Campaign for which the user has opened the email
     user_id: The user who has opened the email
-    '''
-    
+    '''    
     user = get_object_or_404(UserStatus, pk=user_id)
     if user.email_opens.get(campaign_id, None):
         user.email_opens[campaign_id] += 1
@@ -100,3 +104,24 @@ def image_load(request, campaign_id, user_id):
     red.save(response, "PNG")
     
     return response
+
+
+def redirect_yor(request, campaign_id, user_id):
+    '''
+    Takes as input the embed link sent to user in the
+    email, when the user clicks that link it is registered
+    here and then the user is redirected to the desired link.
+
+    Input: 
+    campaign_id: Campaign for which the user has opened the email
+    user_id: The user who has opened the email
+    '''
+    user = get_object_or_404(UserStatus, pk=user_id)
+    if user.link_opens.get(campaign_id, None):
+        user.link_opens[campaign_id] += 1
+    else:
+        user.link_opens[campaign_id] = 1
+    user.save()
+
+    redirect_url = user.user.marketing_link
+    return redirect(redirect_url)
