@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Single Campaign Report</title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+      </style>
+  </head>
+
+  <body>
+    <br><br>
+    <u><h1><b>Campaign Report for campaign: {{ campaign.name }}</b></h1></u>
+    {{ campaign.description }}
+    <u><h2>Demographics</h2></u>
+    <p style="font-size:15px">Date created: {{ campaign.creation_date|date:'d-m-Y, H:iA' }}</p>
+    <p style="font-size:15px">Users participated: {{ campaign.audience|length }}</p>
+    <p style="font-size:15px">Total impressions: {{ extras.campaign_interactions }}</p>
+    <br>    
+    <u><h3>User Actions</h3></u>
+    <table>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>City</th>
+          <th>Email Address</th>
+          <th>Email interactions</th>
+          <th>Link interactions</th>
+          <th>Total interactions</th>
+        </tr>
+        {% for user in users|dictsortreversed:"total_interactions" %}
+            <tr>
+              <td>{{ user.name }}</td> 
+              <td>{{ user.location_of_interest }}</td> 
+              <td>{{ user.city }}</td> 
+              <td>{{ user.email }}</td>
+              <td>{{ user.email_interactions }}</td>
+              <td>{{ user.link_interactions }}</td>
+              <td>{{ user.total_interactions }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+  </body>
+</html>

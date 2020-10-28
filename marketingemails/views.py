@@ -52,15 +52,26 @@ def sendmail(request):
 
     users_to_mail_data = []
     user_pkids = request.POST.getlist('user_selected')
+
+    # For every user, initialise user parameters, build and send the email
     for user_id in user_pkids:
         user = get_object_or_404(User, pk=user_id)
         campaign_id = request.session['campaign_id']
         user.participated_campaigns.append(campaign_id)
+        try:
+            get_object_or_404(UserStatus, pk=user_id)
+        except:
+            user = get_object_or_404(User, pk=user_id)
+            # campaign_status_empty_dict = {campaign_id: 0}
+            new_user_status = UserStatus(
+                user=user
+            )
+            new_user_status.save()
 
         subject, text_mail, html_mail = build_email(user, campaign_id)
         users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
     
-    send_mass_html_mail(users_to_mail_data)
+    # send_mass_html_mail(users_to_mail_data)
 
     return render(request, 'marketingemails/testmailsent.html')
 

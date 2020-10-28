@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Single User Reports</title>
+  </head>
+
+  <body>
+    <br><br>
+    <h1>Report for {{ user.name }}</h1>
+    <b> Details:</b> <br>
+    {{ user.city }}<br>
+    {{ user.location_of_interest }}<br>
+
+    <h3>Campaigns participated in: </h3>
+    <ul>
+    {% for k,v in campaigns.items %}
+        <li>Campaign ID: {{ k }} <br>
+            <a href="{% url 'reports:single_campaign_report' k %}">
+                <b>{{ v.name }}</b>
+              </a>
+        </li>
+        Email impressions: {{ v.email_opens }} <br>
+        Link impressions: {{ v.link_opens }}
+    {% endfor %}
+    </ul>
+  </body>
+</html>

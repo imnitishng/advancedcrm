@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['whispering-lowlands-71883.herokuapp.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'marketingemails.apps.MarketingemailsConfig',
+    'reports.apps.ReportsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
