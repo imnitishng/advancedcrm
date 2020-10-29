@@ -1,3 +1,8 @@
+# Project files gitignored for server
+crmserver/settings.py
+marketingemails/customModelFields.py
+static/
+
 ### Django ###
 *.log
 *.pot
