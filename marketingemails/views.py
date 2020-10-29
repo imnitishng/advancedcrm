@@ -67,6 +67,7 @@ def sendmail(request):
                 user=user
             )
             new_user_status.save()
+        user.save()
 
         subject, text_mail, html_mail = build_email(user, campaign_id)
         users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
