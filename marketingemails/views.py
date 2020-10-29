@@ -52,11 +52,16 @@ def sendmail(request):
 
     users_to_mail_data = []
     user_pkids = request.POST.getlist('user_selected')
+    
+    # Save selected audience to the campaign
+    campaign_id = request.session['campaign_id']
+    campaign = get_object_or_404(Campaigns, pk=campaign_id)
+    campaign.audience = user_pkids
+    campaign.save()
 
     # For every user, initialise user parameters, build and send the email
     for user_id in user_pkids:
         user = get_object_or_404(User, pk=user_id)
-        campaign_id = request.session['campaign_id']
         user.participated_campaigns.append(campaign_id)
         try:
             get_object_or_404(UserStatus, pk=user_id)
