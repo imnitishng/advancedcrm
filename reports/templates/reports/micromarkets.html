@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Micromarkets</title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+      </style>
+  </head>
+
+  <body>
+    <br><br>
+    <h1>Report for Micromarkets</h1>
+    <b><u>Cities</u></b>
+    <ul>
+        {% for k, v in cities.items %}
+            <li>{{ k }}: Impressions = {{ v }}</li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <b><u>Sub regions</u></b>
+    <table>
+        <tr>
+          <th>Subregion</th>
+          <th>City</th>
+          <th>Total interactions</th>
+        </tr>
+        {% for subregion in subregions|dictsortreversed:"impressions" %}
+            <tr>
+              <td>
+                <a href="{% url 'reports:single_micromarket' subregion.subregion %}">
+                  {{ subregion.subregion }}
+                </a>
+              </td>
+              <td>{{ subregion.city }}</td> 
+              <td>{{ subregion.impressions }}</td> 
+            </tr>
+        {% endfor %}
+    </table>
+  </body>
+</html>
