@@ -71,7 +71,7 @@ def sendmail(request):
         subject, text_mail, html_mail = build_email(user, campaign_id)
         users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
     
-    # send_mass_html_mail(users_to_mail_data)
+    send_mass_html_mail(users_to_mail_data)
 
     return render(request, 'marketingemails/testmailsent.html')
 
