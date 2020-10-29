@@ -61,17 +61,30 @@ def single_user_view(request, user_id):
 def micromarkets(request):
     users = User.objects.all()
     user_interactions = users_interactions_all_campaigns(users)
-    city_map, subregion_map = {}, {}
+    city_map, subregion_map, subregion_to_city = {}, {}, {}
     
     for interaction in user_interactions:
-        if interaction['location_of_interest'] in subregion_map:
-            subregion_map.get(interaction['location_of_interest'], 'NULL') += 1
-        else:
-            subregion_map.get(interaction['location_of_interest'], 'NULL') = 1
-        if interaction['city'] in city_map:
-            city.get(interaction['city'], 'NULL') += 1
-        else:
-            city.get(interaction['city'], 'NULL') = 1
+        if interaction['location_of_interest'] not in subregion_to_city:
+            subregion_to_city[interaction['location_of_interest']] = interaction['city']
 
-    return render(request, 'reports/micromarkets.html', {'city': city_map, 'subregion': subregion_map})
+        if interaction['location_of_interest'] in subregion_map:
+            subregion_map[interaction['location_of_interest']] += interaction['total_interactions']
+        else:
+            subregion_map[interaction['location_of_interest']] = 1
+
+        if interaction['city'] in city_map:
+            city_map[interaction['city']] += interaction['total_interactions']
+        else:
+            city_map[interaction['city']] = 1
+
+    final_subregions = []
+    for k, v in subregion_map.items():
+        final_subregions.append({'subregion': k, 'city': subregion_to_city.get(k, 'NULL'), 'impressions': v})
+
+    return render(request, 'reports/micromarkets.html', {'cities': city_map, 'subregions': final_subregions})
         
+
+def single_micromarket(request, subregion):
+    users_for_location = User.objects.filter(location_of_interest=subregion)
+    users_interaction = users_interactions_all_campaigns(users_for_location)
+    return render(request, 'reports/single_location.html', {'users': users_interaction, 'subregion': subregion})
