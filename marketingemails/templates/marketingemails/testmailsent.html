@@ -8,6 +8,8 @@
   <body>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
       {% csrf_token %}
-      OK Done<br>
+      OK Done<br><br>
+      
+      <a href="{% url 'marketingemails:index' %}">HOME</a>
   </body>
 </html>

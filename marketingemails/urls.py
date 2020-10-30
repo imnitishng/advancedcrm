@@ -5,6 +5,7 @@ from . import views
 app_name = 'marketingemails'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('create/', views.create, name='create'),
     path('sendmail/', views.sendmail, name='mailsent'),
     path('audience_select/', views.audience_select, name='audience_select'),
     path('image_load/<str:campaign_id>/<str:user_id>', views.image_load, name='image_load'),
