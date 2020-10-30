@@ -68,12 +68,12 @@ def micromarkets(request):
             subregion_to_city[interaction['location_of_interest']] = interaction['city']
 
         if interaction['location_of_interest'] in subregion_map:
-            subregion_map[interaction['location_of_interest']] += 1
+            subregion_map[interaction['location_of_interest']] += interaction['total_interactions']
         else:
             subregion_map[interaction['location_of_interest']] = 1
 
         if interaction['city'] in city_map:
-            city_map[interaction['city']] += 1
+            city_map[interaction['city']] += interaction['total_interactions']
         else:
             city_map[interaction['city']] = 1
 
