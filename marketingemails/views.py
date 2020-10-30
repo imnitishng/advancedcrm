@@ -14,6 +14,10 @@ from .utils import send_mass_html_mail, dictionary_to_str
 
 
 def index(request):
+    return render(request, 'marketingemails/index.html')
+
+
+def create(request):
     users = get_list_or_404(User, email_address__isnull=False)
     return render(request, 'marketingemails/create_campaign.html', {'users': users})
 
