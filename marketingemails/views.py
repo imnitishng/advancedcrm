@@ -62,7 +62,12 @@ def sendmail(request):
     # For every user, initialise user parameters, build and send the email
     for user_id in user_pkids:
         user = get_object_or_404(User, pk=user_id)
-        user.participated_campaigns.append(campaign_id)
+        if user.participated_campaigns[0] == '':
+            user.participated_campaigns = [campaign_id]
+        else:
+            user.participated_campaigns.append(campaign_id)
+        user.save()
+        
         try:
             get_object_or_404(UserStatus, pk=user_id)
         except:
@@ -72,7 +77,6 @@ def sendmail(request):
                 user=user
             )
             new_user_status.save()
-        user.save()
 
         subject, text_mail, html_mail = build_email(user, campaign_id)
         users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
