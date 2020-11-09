@@ -42,8 +42,8 @@ class CommaSepField(models.Field):
             return value   
         listToSave = []
         for s in value:
-            if len(s):
-                listToSave.append(s)            
+            if len(str(s)):
+                listToSave.append(str(s))
         return self.separator.join(listToSave)
 
     def value_to_string(self, obj):

@@ -24,9 +24,13 @@
 
   <body>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-      Select audience for {{ campaign.name }} ->
+      <br>
+      <h3> Select audience for {{ campaign.name }}  </h3>
       <form action="{% url 'marketingemails:mailsent' %}" method="post">
         {% csrf_token %}
+        <input type="checkbox" id="select_all_users" name="select_all_users" value="1">
+        <label for="select_all_users">Send to every user </label>
+        <br><br>
         <table>
           <tr>
             <th>Selected</th>
@@ -46,7 +50,8 @@
               </tr>
           {% endfor %}
         </table>
-        <input type="submit" value="Send Test Mail">
+        <br>
+        <input type="submit" value="Start Campaign">
       </form>        
   </body>
 </html>

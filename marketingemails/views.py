@@ -10,7 +10,7 @@ from PIL import Image
 
 from .models import User, UserStatus, Campaigns
 from .forms import UserListForm, UserListModelForm
-from .utils import send_mass_html_mail, dictionary_to_str
+from .utils import send_mass_html_mail, dictionary_to_str, schedule_future_campaign
 
 
 def index(request):
@@ -51,13 +51,21 @@ def sendmail(request):
         return subject, text_content, html_content
 
     users_to_mail_data = []
-    user_pkids = request.POST.getlist('user_selected')
+    if request.POST.get('select_all_users'):
+        user_pkids = list(User.objects.all().values_list('id', flat=True))
+    else:
+        user_pkids = request.POST.getlist('user_selected')
     
     # Save selected audience to the campaign
     campaign_id = request.session['campaign_id']
+    future_campaigns_count = request.session['future_campaigns_count']
+
     campaign = get_object_or_404(Campaigns, pk=campaign_id)
     campaign.audience = user_pkids
     campaign.save()
+
+    # Add dummy future campaigns and queue them to be sent
+    schedule_future_campaign(future_campaigns_count, user_pkids, campaign)
 
     # For every user, initialise user parameters, build and send the email
     for user_id in user_pkids:
@@ -87,13 +95,18 @@ def sendmail(request):
 
 
 def audience_select(request):
+    '''
+    Save the campaign and select audience for the same.    
+    '''
     campaign = Campaigns(
         name = request.POST.get('campaign_name'),
         description = request.POST.get('campaign_desc'),
-        creation_date = timezone.now()
+        creation_date = timezone.now(),
+        launch_datetime = timezone.now()
     )
     campaign.save()
     request.session['campaign_id'] = str(campaign.id)
+    request.session['future_campaigns_count'] = request.POST.get('auto_campaigns_count')
     
     users = get_list_or_404(User, email_address__isnull=False)
     return render(request, 'marketingemails/audience_select.html', {'users': users, 'campaign': campaign})
