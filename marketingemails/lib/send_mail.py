@@ -25,11 +25,36 @@ def send_mass_html_mail(datatuple, fail_silently=False, user=None, password=None
     return connection.send_messages(messages)
 
 
-def build_email(user, campaign_id,request):
+def select_email_type(campaign, context):
+    '''
+    Select HTML Email to send based on the campaign type.
+    '''
+    if campaign.campaign_type == 1:
+        subject = "Recommendations"
+        html_content = render_to_string('mails/campaign1.html', {'context': context})
+    elif campaign.campaign_type == 2:
+        subject = "Recommendations"
+        html_content = render_to_string('mails/campaign2.html', {'context': context})
+    elif campaign.campaign_type == 3:
+        subject = "Recommendations"
+        html_content = render_to_string('mails/campaign3.html', {'context': context})
+    elif campaign.campaign_type == 99:
+        subject = "Seems like you're lost"
+        html_content = render_to_string('mails/remarketing_campaign.html', {'context': context})
+    else:
+        subject = "Recommendations"
+        html_content = render_to_string('mails/campaign1.html', {'context': context})
+    
+    return subject, html_content
+
+
+def build_email(user, campaign, request):
+    campaign_id = str(campaign.id)
+
     text_content = f"""
-        Hi {user.name}, 
-            Here are some properties in {user.location_of_interest} you might be interested in,
-            {user.marketing_link}.
+        Hi {user.name},\n\n
+        Here are some properties in {user.location_of_interest} you might be interested in,
+        {user.marketing_link}.
         """
 
     reverse_image_url = reverse("marketingemails:image_load", 
@@ -52,9 +77,7 @@ def build_email(user, campaign_id,request):
         'link': marketing_url
     }
 
-    html_content = render_to_string('mails/campaign1.html', {'context': context})        
-    subject = "Recommendations"
-    
+    subject, html_content = select_email_type(campaign, context) 
     return subject, text_content, html_content
 
 
@@ -81,7 +104,7 @@ def get_mail_data(user_pkids, campaign, request):
             )
             new_user_status.save()
 
-        subject, text_mail, html_mail = build_email(user, campaign_id, request)
+        subject, text_mail, html_mail = build_email(user, campaign, request)
         users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
     
     return users_to_mail_data

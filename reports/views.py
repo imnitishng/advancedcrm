@@ -4,9 +4,10 @@ from django.http import HttpResponse
 from django.shortcuts import get_list_or_404, get_object_or_404, render, redirect
 from django.core.mail import get_connection, EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils.timezone import now as timezone_now
 
 from marketingemails.models import User, UserStatus, Campaigns
-from .utils import users_interactions_single_campaign, users_interactions_all_campaigns
+from .utils import users_interactions_single_campaign, users_interactions_all_campaigns, user_hit_rates
 
 
 def index(request):
@@ -88,3 +89,41 @@ def single_micromarket(request, subregion):
     users_for_location = User.objects.filter(location_of_interest=subregion)
     users_interaction = users_interactions_all_campaigns(users_for_location)
     return render(request, 'reports/single_location.html', {'users': users_interaction, 'subregion': subregion})
+
+
+def campaign_series(request):
+    parent_campaigns = Campaigns.objects.exclude(future_campaigns='').filter(parent_campaigns='')
+    context = {
+        'campaigns': parent_campaigns
+    }
+    return render(request, 'reports/parent_campaigns.html', {'campaigns': parent_campaigns})
+
+
+def single_campaign_series(request, parent_campaign_id):
+    parent_campaign = get_object_or_404(Campaigns, pk=parent_campaign_id)
+    child_campaign_ids = parent_campaign.future_campaigns
+
+    campaigns_sent = []
+    campaigns_pending = []
+    for id in child_campaign_ids:
+        child = Campaigns.objects.filter(pk=id, launch_datetime__lte = timezone_now())
+        if child:
+            campaigns_sent.append(Campaigns.objects.get(pk=id))
+        else:
+            campaigns_pending.append(Campaigns.objects.get(pk=id))
+    
+    campaigns_sent.append(parent_campaign)
+    if campaigns_sent:
+        parent_campaign_user_ids = parent_campaign.audience
+        parent_campaign_users = User.objects.in_bulk(parent_campaign_user_ids)
+        if parent_campaign_users:
+            parent_campaign_users = list(parent_campaign_users.values())
+
+        hitrate_percentages = user_hit_rates(parent_campaign_users, campaigns_sent)
+        return render(request, 'reports/single_campaign_series.html', {
+            'hitrates': hitrate_percentages, 
+            'campaign': parent_campaign, 
+            'childs_sent': campaigns_sent,
+            'childs_pending': campaigns_pending})
+    else:
+        return render(request, 'reports/null_series.html', {'childs_pending': campaigns_pending})
