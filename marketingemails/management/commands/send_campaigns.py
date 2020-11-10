@@ -19,7 +19,7 @@ class Command(BaseCommand):
             # campaign_jobs_to_deliver = ScheduledCampaign.objects.filter(
             #     scheduled_timestamp__lte=dt)
         campaign_jobs_to_deliver = ScheduledCampaign.objects.filter(
-            campaign__name='dsfgsdf-1')
+            campaign__name='auto corr-1')
         
         if campaign_jobs_to_deliver:
             for job in campaign_jobs_to_deliver:

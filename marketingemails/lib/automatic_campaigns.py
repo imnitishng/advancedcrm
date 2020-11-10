@@ -19,7 +19,8 @@ def schedule_future_campaign(reps, user_ids, parent_campaign):
     in the view. The campaigns are dummy right now, audience is added later.
     '''
     campaign_parents = []
-    rount_diff = int(reps)//3
+    child_campaigns = []
+    round_diff = int(reps)//3
     campaign_round = 0
 
     previous_campaign_id = parent_campaign.id
@@ -29,31 +30,41 @@ def schedule_future_campaign(reps, user_ids, parent_campaign):
         campaign_parents.append(previous_campaign_id)
         campaign_launch_time = timezone_now() + datetime.timedelta(days=i+1)
 
+        if(i % round_diff) == 0:
+            campaign_round += 1
+        if campaign_round > 3:
+            campaign_round = 3
+
         scheduled_campaign = Campaigns(
             name = campaign_name,
             description = campaign_desc,
             creation_date = timezone_now(),
             launch_datetime = campaign_launch_time,
-            parent_campaigns = campaign_parents
+            parent_campaigns = campaign_parents,
+            campaign_type = campaign_round
         )
         scheduled_campaign.save()
         previous_campaign_id = scheduled_campaign.id
+        child_campaigns.append(scheduled_campaign.id)
         
-        campaign_round += rount_diff
-        if campaign_round > 3:
-            campaign_round = 3
         campaign_queue_entry = ScheduledCampaign(
-            type = campaign_round,
             scheduled_timestamp = campaign_launch_time,
             campaign = scheduled_campaign
         )
         campaign_queue_entry.save()
+    parent_campaign.future_campaigns = child_campaigns
+    parent_campaign.save()
 
 
 def deliver_campaign(job):
     previous_campaign_id = job.campaign.parent_campaigns[-1]
     previous_campaign = get_object_or_404(Campaigns, pk=previous_campaign_id)
     previous_campaign_user_ids = previous_campaign.audience
+    if previous_campaign_user_ids[0] == '':
+        previous_campaign_user_ids = []
+    if len(previous_campaign.remarket_audience) > 1:
+        previous_campaign_user_ids.extend(previous_campaign.remarket_audience)
+
     previous_campaign_users = User.objects.in_bulk(previous_campaign_user_ids)
 
     if previous_campaign_users:
@@ -84,6 +95,7 @@ def configure_campaigns(previous_users_interactions, campaign):
             users_not_qualified.append(interaction['id'])
 
     campaign.audience = users_qualified
+    campaign.remarket_audience = users_not_qualified
     campaign.save()
 
     remarketing_campaign = configure_remarketing_campaign(users_not_qualified)

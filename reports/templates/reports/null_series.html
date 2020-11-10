@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Parent Campaign Reports</title>
+  </head>
+
+  <body>
+    <br><br>
+    <h1>Parent Campaign Reports</h1>
+    <h2>None of the campaigns have been triggered yet</h2>
+    <h3>Campaigns pending</h3>
+    <ul>
+        {% for child in childs_pending %}
+            <li>{{ child.name }} scheduled for {{ child.launch_datetime|date:'d-m-Y, H:iA' }}</li>
+        {% endfor %}
+    </ul>
+  </body>
+</html>
