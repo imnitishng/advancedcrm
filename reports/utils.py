@@ -23,6 +23,7 @@ def users_interactions_single_campaign(all_users, campaign_id):
             total_interactions = email_interactions + link_interactions
             campaign_interactions += total_interactions
             user_dict = {
+                'id': user.id,
                 'name': user.name,
                 'email': user.email_address,
                 'location_of_interest': user.location_of_interest,
@@ -31,12 +32,12 @@ def users_interactions_single_campaign(all_users, campaign_id):
                 'link_interactions': link_interactions,
                 'total_interactions': total_interactions
             }            
-            users_for_campaign.append(user_dict)  
+            users_for_campaign.append(user_dict)
     return users_for_campaign, campaign_interactions
 
 def users_interactions_all_campaigns(all_users):
     '''
-    Takes as input all the users and gives ou the interactions user
+    Takes as input all the users and gives out the interactions user
     has ever done with any of the campaign.
     '''
     users_interaction = []
@@ -62,3 +63,39 @@ def users_interactions_all_campaigns(all_users):
         }
         users_interaction.append(user_dict) 
     return users_interaction
+
+def user_hit_rates(users, campaigns):
+    '''
+    Takes as input a list of campaign IDS and returns the hit rate
+    percentage for the user interactions.
+    '''
+    user_engagement_percentages = []
+    total_campaigns = len(campaigns)
+
+    for user in users:
+        all_interactions = 0
+        for campaign in campaigns:
+            campaign_id = str(campaign.id)
+            interaction_details, interactions = users_interactions_single_campaign([user], campaign_id)
+            all_interactions += interactions
+
+        percentage = ((all_interactions*0.5)/total_campaigns) * 100
+        if interaction_details:
+            percent_dict = {
+                'user_id': interaction_details[0]['id'],
+                'name': interaction_details[0]['name'],
+                'email': interaction_details[0]['email'],
+                'location_of_interest': interaction_details[0]['location_of_interest'],
+                'hit_rate': percentage
+            }
+        else:
+            percent_dict = {
+                'user_id': user.id,
+                'name': user.name,
+                'email': user.email_address,
+                'location_of_interest': user.location_of_interest,
+                'hit_rate': 0.0
+            }
+        user_engagement_percentages.append(percent_dict)
+
+    return user_engagement_percentages

@@ -10,7 +10,9 @@ from PIL import Image
 
 from .models import User, UserStatus, Campaigns
 from .forms import UserListForm, UserListModelForm
-from .utils import send_mass_html_mail, dictionary_to_str
+from .utils import dictionary_to_str
+from .lib.automatic_campaigns import schedule_future_campaign
+from .lib.send_mail import send_mass_html_mail, get_mail_data
 
 
 def index(request):
@@ -23,77 +25,42 @@ def create(request):
 
 
 def sendmail(request):
-
-    def build_email(user, campaign_id):
-        text_content = f"""
-            Hi {user.name}, 
-                Here are some properties in {user.location_of_interest} you might be interested in,
-                {user.marketing_link}.
-            """
-        context = {
-            'name': user.name,
-            'location': user.location_of_interest,
-            'image_url': request.build_absolute_uri(
-                reverse("marketingemails:image_load", 
-                    args=(str(campaign_id), str(user.id))
-                )
-            ),
-            'link': request.build_absolute_uri(
-                reverse("marketingemails:redirect_to_yor", 
-                    args=(str(campaign_id), str(user.id))
-                )
-            )
-        }
-
-        html_content = render_to_string('mails/campaign1.html', {'context': context})        
-        subject = "Recommendations"
-        
-        return subject, text_content, html_content
-
-    users_to_mail_data = []
-    user_pkids = request.POST.getlist('user_selected')
+    if request.POST.get('select_all_users'):
+        user_pkids = list(User.objects.all().values_list('id', flat=True))
+    else:
+        user_pkids = request.POST.getlist('user_selected')
     
     # Save selected audience to the campaign
     campaign_id = request.session['campaign_id']
+    future_campaigns_count = request.session['future_campaigns_count']
+
     campaign = get_object_or_404(Campaigns, pk=campaign_id)
     campaign.audience = user_pkids
     campaign.save()
 
-    # For every user, initialise user parameters, build and send the email
-    for user_id in user_pkids:
-        user = get_object_or_404(User, pk=user_id)
-        if user.participated_campaigns[0] == '':
-            user.participated_campaigns = [campaign_id]
-        else:
-            user.participated_campaigns.append(campaign_id)
-        user.save()
-        
-        try:
-            get_object_or_404(UserStatus, pk=user_id)
-        except:
-            user = get_object_or_404(User, pk=user_id)
-            # campaign_status_empty_dict = {campaign_id: 0}
-            new_user_status = UserStatus(
-                user=user
-            )
-            new_user_status.save()
+    # Add dummy future campaigns and queue them to be sent
+    schedule_future_campaign(future_campaigns_count, user_pkids, campaign)
 
-        subject, text_mail, html_mail = build_email(user, campaign_id)
-        users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
+    users_to_mail_data = get_mail_data(user_pkids, campaign, request)
     
-    send_mass_html_mail(users_to_mail_data)
+    # send_mass_html_mail(users_to_mail_data)
 
     return render(request, 'marketingemails/testmailsent.html')
 
 
 def audience_select(request):
+    '''
+    Save the campaign and select audience for the same.    
+    '''
     campaign = Campaigns(
         name = request.POST.get('campaign_name'),
         description = request.POST.get('campaign_desc'),
-        creation_date = timezone.now()
+        creation_date = timezone.now(),
+        launch_datetime = timezone.now()
     )
     campaign.save()
     request.session['campaign_id'] = str(campaign.id)
+    request.session['future_campaigns_count'] = request.POST.get('auto_campaigns_count')
     
     users = get_list_or_404(User, email_address__isnull=False)
     return render(request, 'marketingemails/audience_select.html', {'users': users, 'campaign': campaign})
