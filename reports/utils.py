@@ -23,6 +23,7 @@ def users_interactions_single_campaign(all_users, campaign_id):
             total_interactions = email_interactions + link_interactions
             campaign_interactions += total_interactions
             user_dict = {
+                'id': user.id,
                 'name': user.name,
                 'email': user.email_address,
                 'location_of_interest': user.location_of_interest,
@@ -31,7 +32,7 @@ def users_interactions_single_campaign(all_users, campaign_id):
                 'link_interactions': link_interactions,
                 'total_interactions': total_interactions
             }            
-            users_for_campaign.append(user_dict)  
+            users_for_campaign.append(user_dict)
     return users_for_campaign, campaign_interactions
 
 def users_interactions_all_campaigns(all_users):

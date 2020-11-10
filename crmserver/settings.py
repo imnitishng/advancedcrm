@@ -27,7 +27,7 @@ SECRET_KEY = '#%5v$@k(=)10*^t@vj=_m#m_i0-)!#co1r8r3^3p-@tf^4ttrx'
 DEBUG = True
 
 ALLOWED_HOSTS = ['whispering-lowlands-71883.herokuapp.com', '127.0.0.1']
-
+SERVER_IP = 'http://128.199.28.152/'
 
 # Application definition
 

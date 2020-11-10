@@ -39,7 +39,7 @@ class CommaSepField(models.Field):
 
     def get_prep_value(self, value):
         if not value:
-            return value   
+            return ''   
         listToSave = []
         for s in value:
             if len(str(s)):
