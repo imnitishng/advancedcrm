@@ -4,7 +4,7 @@ from .models import User, Campaigns, UserStatus, ScheduledCampaign
 
 
 class CampaignsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'trigger_time', 'parent_campaigns')
+    list_display = ('name', 'trigger_time', 'parent_campaigns', 'future_campaigns')
 
     def trigger_time(self, obj):
         return f"{obj.launch_datetime.strftime('%d, %b %Y - %I:%M%p')}"
