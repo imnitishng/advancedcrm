@@ -43,9 +43,8 @@ def sendmail(request):
 
     users_to_mail_data = get_mail_data(user_pkids, campaign, request)
     
-    # send_mass_html_mail(users_to_mail_data)
-
-    return render(request, 'marketingemails/testmailsent.html')
+    while send_mass_html_mail(users_to_mail_data):
+        return render(request, 'marketingemails/testmailsent.html')
 
 
 def audience_select(request):
