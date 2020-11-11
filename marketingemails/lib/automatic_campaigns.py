@@ -30,7 +30,7 @@ def schedule_future_campaign(reps, user_ids, parent_campaign):
         campaign_parents.append(previous_campaign_id)
         campaign_launch_time = timezone_now() + datetime.timedelta(days=i+1)
 
-        if(i % round_diff) == 0:
+        if (round_diff != 0 and i % round_diff) == 0:
             campaign_round += 1
         if campaign_round > 3:
             campaign_round = 3
