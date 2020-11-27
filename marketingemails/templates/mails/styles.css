@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+h2{font-size:28px;}
+
+.fullpage {
+    padding: 10% 10%;
+    background-color: #e2dcdc;
+}
+
+.page-content {
+    background-color: white;
+}
+
+.center-text.lg-block {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.center-text.md-block {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.center-text.sm-block {
+    font-size: 1em;
+    width: 50%;
+}
+
+.center-text {
+    text-align: center;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.no-margin-para {
+    margin: 0;
+}
+
+.link-button.lg {
+    width: 20.2vw;
+    font-size: 90%;
+    padding: 6% 16%;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 7px;
+}
+
+.link-button.md {
+    width: 10vw;
+    font-size: 70%;
+    padding: 3% 8%;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.link-button {
+    background-color: red;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.center-block {
+    margin: 0 auto;
+    width: max-content;
+}
+
+.grid-container {
+    display: grid;
+    margin: 5% 5%;
+    grid-template-columns: auto auto;
+    grid-gap: 3%;
+}
+
+.property-image {
+    width: 100%;
+    object-fit: cover;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-container-bottom {
+    display: flex;
+    justify-content: space-between;
+    width: 20vw;
+}
+
+.bounding-box {
+    margin: 3% 20%;
+    border: black;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 20px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.overlap-text-lg {
+    position: absolute;
+    width: 60vw;
+    margin: 1% 5%;
+}
+
+#image-caption {
+    width: 60%;
+    margin: 0 auto;
+}
+
+#logo-img {
+    display: block;
+    width: 40%;
+    margin: auto auto;
+}
+
+#logo-img-inline {
+    display: float;
+    width: 15vh;
+    margin: 45px auto 45px auto;
+}
+
+#illustration-image {
+    display: block;
+    width: 80%;
+    margin: 45px auto 45px auto ;
+}
+
+#how-works {
+    width: 40vw;
+}
+
+#app-link-image {
+    width: 10vw;
+    object-fit: cover;
+}
+
+#house-outlined {
+    position: absolute; 
+    width: 60%; 
+    margin-left: 6%; 
+    margin-right: 8%;
+    margin-top: 11%;
+}
+
+#booknow-button {
+    position: absolute;
+    width: 35%; 
+    margin: 38% 33%;
+}
