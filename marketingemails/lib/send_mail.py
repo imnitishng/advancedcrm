@@ -25,24 +25,25 @@ def send_mass_html_mail(datatuple, fail_silently=False, user=None, password=None
     return connection.send_messages(messages)
 
 
-def select_email_type(campaign, context):
+def select_email_type(campaign, user, context):
     '''
     Select HTML Email to send based on the campaign type.
     '''
+    user_first_name = user.name.split(' ')[0]
     if campaign.campaign_type == 1:
-        subject = "Recommendations"
+        subject = f"Hi {user_first_name}! Have a look at some properties on YourOwnRoom."
         html_content = render_to_string('mails/campaign1.html', {'context': context})
     elif campaign.campaign_type == 2:
-        subject = "Recommendations"
+        subject = f"Hi {user_first_name}! Here are some handpicked recommendations for you."
         html_content = render_to_string('mails/campaign2.html', {'context': context})
     elif campaign.campaign_type == 3:
-        subject = "Recommendations"
+        subject = f"Hi {user_first_name}! Here are some handpicked recommendations for you."
         html_content = render_to_string('mails/campaign3.html', {'context': context})
     elif campaign.campaign_type == 99:
         subject = "Seems like you're lost"
-        html_content = render_to_string('mails/remarketing_campaign.html', {'context': context})
+        html_content = render_to_string('mails/campaign1.html', {'context': context})
     else:
-        subject = "Recommendations"
+        subject = "YourOwnRoom recommendations"
         html_content = render_to_string('mails/campaign1.html', {'context': context})
     
     return subject, html_content
@@ -77,7 +78,7 @@ def build_email(user, campaign, request):
         'link': marketing_url
     }
 
-    subject, html_content = select_email_type(campaign, context) 
+    subject, html_content = select_email_type(campaign, user, context) 
     return subject, text_content, html_content
 
 
