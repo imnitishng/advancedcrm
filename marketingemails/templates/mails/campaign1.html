@@ -1,14 +1,66 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Sample mail!</title>
-  </head>
-
-  <body>
-    <h1>HELLO {{ context.name }}</h1>
-    <p>Here are some properties in {{ context.location }} you.</p>
-    <h2>{{ context.link }}</h2>
-    <img src="{{context.image_url}}" height="0px" width="0px"/>
-  </body>
-</html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+  <title>YourOwnRoom</title>
+</head>
+<body>
+  <div class="fullpage">
+    <div class="page-content">
+      <div class="flex-container-vertical">
+        <div id="logo-img">
+          <img id="illustration-image" src="./mail_assets/logo.png" alt="logo">
+        </div>
+        <div style="margin: 5% 5%;">
+          <img id="illustration-image" src="./mail_assets/confetti.png" alt="illustration1" style="position: absolute; width: 75%;">
+          <img id="illustration-image" src="./mail_assets/hand_house.png" alt="illustration1" style="display: block; width: 100%;">
+          
+          <img id="illustration-image" src="./mail_assets/logo_decor.png" alt="logo decorated">
+          <div class="flex" style="position: absolute; height: 70%; width: 70%; margin-left: 1%;">
+            <div class="center-text lg-block" style="margin-top: 4%;">
+              GET UP TO <span style="color: white;">30% OFF</span> ON ALL YOUR FAVORITES
+            </div>
+            <div class="center-text lg-block" style="margin-top: 33%;">
+              THE <span style="color: white;">HOME</span> ADVANTAGE
+            </div>
+            <div class="center-text md-block" style="margin-top: 13%;">
+              "Making Living Better"
+            </div>
+            <img id="booknow-button" src="./mail_assets/booknow.png" alt="outline">
+          </div>
+          <img id="house-outlined" src="./mail_assets/border_house.png" alt="outline">
+          <img id="illustration-image" src="./mail_assets/bluebg.png" alt="logo" style="display: block; width: 100%;">          
+        </div>
+      </div>
+      <hr color="red">
+      <div class="flex-container" style="justify-content: space-between; margin-top: 15px; flex-direction: row;">
+        <div class="flex-container-bottom" style="flex-direction: column;">
+          <div class="center-text">
+            Download the App
+          </div>
+          <div class="flex-container-bottom">
+            <div style="width: 10vw; margin: auto 0;">
+              <img id="app-link-image" src="./mail_assets/googleapp.png" alt="google play store">
+            </div>
+            <div style="width: 10vw; margin: auto 0;">
+              <img id="app-link-image" src="./mail_assets/iosapp.png" alt="apple app store">
+            </div>
+          </div>
+        </div>
+        <div class="flex-container-bottom">
+          <div style="width: 10vw; margin: auto 0;">
+            <img id="social-logo" src="./mail_assets/instagram.png" alt="google play store">
+          </div>
+          <div style="width: 10vw; margin: auto 0;">
+            <img id="social-logo" src="./mail_assets/twitter.png" alt="google play store">
+          </div>
+          <div style="width: 10vw; margin: auto 0;">
+            <img id="social-logo" src="./mail_assets/facebook.png" alt="google play store">
+          </div>
+        </div>
+      </div>
+      <img src="{{context.image_url}}" height="0px" width="0px"/>
+    </div>
+  </div>
+</body>
