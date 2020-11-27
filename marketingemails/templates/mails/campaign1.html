@@ -1,14 +1,72 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Sample mail!</title>
-  </head>
-
-  <body>
-    <h1>HELLO {{ context.name }}</h1>
-    <p>Here are some properties in {{ context.location }} you.</p>
-    <h2>{{ context.link }}</h2>
-    <img src="{{context.image_url}}" height="0px" width="0px"/>
-  </body>
-</html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- <link rel="stylesheet" type="text/css" href="./styles.css"> -->
+  <title>YourOwnRoom</title>
+</head>
+<body>
+  <div class="fullpage" style="margin: 0; font-family: sans-serif; padding: 10% 10%; background-color: #e2dcdc;">
+    <div class="page-content" style="background-color: white;">
+      <div class="flex-container-vertical">
+        <div id="logo-img" style="display: block; width: 40%; margin: auto auto;">
+          <img id="illustration-image" src="https://user-images.githubusercontent.com/35267629/100467281-34c0b800-30f8-11eb-88c0-0a6af206fadc.png" alt="logo"
+           style="display: block; width: 80%; margin: 45px auto 45px auto ;">
+        </div>
+        <div style="margin: 5% 5%;">
+          <img id="illustration-image" src="https://user-images.githubusercontent.com/35267629/100467181-0f33ae80-30f8-11eb-97eb-c4cf11dcfed3.png" alt="illustration1" style="display: block; margin: 45px auto 45px auto; position: absolute; width: 75%;">
+          <img id="illustration-image" src="https://user-images.githubusercontent.com/35267629/100467267-2f636d80-30f8-11eb-9392-e6e59be95f11.png" alt="illustration1" style="display: block; width: 100%; display: block; margin: 45px auto 45px auto;">
+          
+          <img id="illustration-image" src="https://user-images.githubusercontent.com/35267629/100467284-35594e80-30f8-11eb-9bd3-99181aa50238.png" alt="logo decorated" style="display: block; width: 80%; margin: 45px auto 45px auto ;">
+          <div class="flex" style="position: absolute; height: 70%; width: 70%; margin-left: 1%;">
+            <div class="center-text lg-block" style="margin: 0 auto; margin-top: 4%; font-size: 2em; font-weight: bold; text-align: center;">
+              GET UP TO <span style="color: white;">30% OFF</span> ON ALL YOUR FAVORITES
+            </div>
+            <div class="center-text lg-block" style="text-align: center; margin: 0 auto; margin-top: 33%; width: 70%; font-size: 2em; font-weight: bold;">
+              THE <span style="color: white;">HOME</span> ADVANTAGE
+            </div>
+            <div class="center-text md-block" style="text-align: center; margin: 0 auto; width: 70%; margin-top: 13%; font-size: 1.3em; font-weight: bold;">
+              "Making Living Better"
+            </div>
+            <a href="{{ context.link }}">
+              <img id="booknow-button" src="https://user-images.githubusercontent.com/35267629/100467156-017e2900-30f8-11eb-8dfd-eb0e2407913c.png" alt="outline" 
+                style="position: absolute; width: 35%; margin: 38% 33%;">
+            </a>
+          </div>
+          <img id="house-outlined" src="https://user-images.githubusercontent.com/35267629/100467166-05aa4680-30f8-11eb-8225-376716ef8137.png" alt="outline"
+           style="position: absolute; width: 60%; margin-left: 6%; margin-right: 8%; margin-top: 11%;">
+          <img id="illustration-image" src="https://user-images.githubusercontent.com/35267629/100467113-faefb180-30f7-11eb-8eae-6507e90b20f7.png" alt="logo" style="display: block; width: 100%; display: block; margin: 45px auto 45px auto;">
+        </div>
+      </div>
+      <hr color="red">
+      <div class="flex-container" style="display: flex; justify-content: space-between; margin-top: 15px; flex-direction: row;">
+        <div class="flex-container-bottom" style="display: flex; justify-content: space-between; width: 20vw; flex-direction: column;">
+          <div class="center-text" style="text-align: center; margin: 0 auto; width: 70%;">
+            Download the App
+          </div>
+          <div class="flex-container-bottom" style="display: flex; justify-content: space-between; width: 20vw;">
+            <div style="width: 10vw; margin: auto 0;">
+              <img id="app-link-image" src="https://user-images.githubusercontent.com/35267629/100467266-2ecad700-30f8-11eb-8c12-70636a783138.png" alt="google play store"
+               style="width: 10vw; object-fit: cover;">
+            </div>
+            <div style="width: 10vw; margin: auto 0;">
+              <img id="app-link-image" src="https://user-images.githubusercontent.com/35267629/100467275-338f8b00-30f8-11eb-9bae-3527e77250ac.png" alt="apple app store"
+              style="width: 10vw; object-fit: cover;">
+            </div>
+          </div>
+        </div>
+        <div class="flex-container-bottom" style="display: flex; justify-content: space-between; width: 20vw;">
+          <div style="width: 10vw; margin: auto 0;">
+            <img id="social-logo" src="https://user-images.githubusercontent.com/35267629/100467272-32f6f480-30f8-11eb-8e3d-5bf562e1a43b.png" alt="google play store">
+          </div>
+          <div style="width: 10vw; margin: auto 0;">
+            <img id="social-logo" src="https://user-images.githubusercontent.com/35267629/100467287-37231200-30f8-11eb-8d17-bb49102fbae0.png" alt="google play store">
+          </div>
+          <div style="width: 10vw; margin: auto 0;">
+            <img id="social-logo" src="https://user-images.githubusercontent.com/35267629/100467208-19ee4380-30f8-11eb-98f6-bcae1904ebb1.png" alt="google play store">
+          </div>
+        </div>
+      </div>
+      <img src="{{context.image_url}}" height="0px" width="0px"/>
+    </div>
+  </div>
+</body>
