@@ -21,7 +21,7 @@ def schedule_future_campaign(reps, user_ids, parent_campaign):
     campaign_parents = []
     child_campaigns = []
     round_diff = int(reps)//3
-    campaign_round = 0
+    campaign_round = 1
 
     previous_campaign_id = parent_campaign.id
     for i in range(int(reps)):
@@ -89,7 +89,7 @@ def configure_campaigns(previous_users_interactions, campaign):
     users_not_qualified = []
     
     for interaction in previous_users_interactions:
-        if interaction.get('total_interactions') > 0:
+        if interaction.get('total_interactions') > 1:
             users_qualified.append(interaction['id'])
         else:
             users_not_qualified.append(interaction['id'])

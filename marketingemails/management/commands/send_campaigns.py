@@ -22,5 +22,6 @@ class Command(BaseCommand):
             for job in campaign_jobs_to_deliver:
                 deliver_campaign(job)
                 i += 1
-            print(f'Sent {i} emails')
-        print('oof nothing to send! F')
+            print(f'Sent {i} emails! Exiting.')
+        else:
+            print('oof nothing to send! F')
