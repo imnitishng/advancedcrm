@@ -41,7 +41,7 @@ def select_email_type(campaign, user, context):
         html_content = render_to_string('mails/campaign3.html', {'context': context})
     elif campaign.campaign_type == 99:
         subject = "Seems like you're lost"
-        html_content = render_to_string('mails/remarketing_campaign.html', {'context': context})
+        html_content = render_to_string('mails/campaign1.html', {'context': context})
     else:
         subject = "YourOwnRoom recommendations"
         html_content = render_to_string('mails/campaign1.html', {'context': context})
