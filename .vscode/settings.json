@@ -1,3 +1,4 @@
 {
     "python.pythonPath": "/home/nitish/venvs/yor/bin/python",
+    "liveServer.settings.port": 5501,
 }
