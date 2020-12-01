@@ -52,7 +52,11 @@
         </tr>
         {% for user in hitrates|dictsortreversed:"hit_rate" %}
             <tr>
-              <td>{{ user.name }}</td> 
+              <td>
+                <a href="{% url 'reports:single_user_report' user.user_id %}">
+                {{ user.name }}
+                </a>
+              </td>                 
               <td>{{ user.location_of_interest }}</td> 
               <td>{{ user.email }}</td>
               <td>{{ user.hit_rate }}</td>
