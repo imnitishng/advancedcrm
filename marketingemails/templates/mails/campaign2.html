@@ -1,106 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="./styles.css">
-  <title>YourOwnRoom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
-<body>
-  <div class="fullpage">
-    <div class="page-content">
-      <img id="logo-img" src="./mail_assets/logo.png" alt="logo"><br>
-      <div class="center-text lg-block">
-        <p class="no-margin-para">Our passion is Milennial living. </p>
-        <p class="no-margin-para">Need a family or a co-living home?</p>        
-      </div>
-      <img id="illustration-image" src="./mail_assets/family.png" alt="family photo">
-      <div class="center-text md-block">
-        <p class="no-margin-para">Things might look different this year, but 
-        you still need a Safe Bigger & Clean Accomodation <P>
-      </div>
-      <div class="center-block">
-        <button class="link-button lg">
-          Explore More
-        </button>
-        <button class="link-button md">
-          Pune
-        </button>
-        <button class="link-button md">
-          Banglore
-        </button>
-      </div>
-      <hr color="red">
-      <div class="grid-container">
-        <div class="grid-item">
-          <img class="property-image" src="./mail_assets/kharadi.jpg" alt="kharadi">
-          <div class="center-text sm-block">
-            <p class="no-margin-para">Kharadi</p>
-          </div>
-        </div>
-        <div class="grid-item">
-          <img class="property-image" src="./mail_assets/magarpatta.jpg" alt="magarpatta">
-          <div class="center-text sm-block">
-            <p class="no-margin-para">Magarpatta</p>
-          </div>
-        </div>
-        <div class="grid-item">
-          <img class="property-image" src="./mail_assets/vimannagar.jpg" alt="vimannagar">
-          <div class="center-text sm-block">
-            <p class="no-margin-para">Vimannagar</p>
-          </div>
-        </div>
-        <div class="grid-item">
-          <img class="property-image" src="./mail_assets/wakad.jpg" alt="wakad">
-          <div class="center-text sm-block">
-            <p class="no-margin-para">Wakad</p>
-          </div>
-        </div>
-      </div>
-      <hr color="red">
-      <div class="center-block">
-        <button class="link-button lg">
-          Explore More
-        </button>
-      </div>
-      <div class="bounding-box">
-        <div class="center-text">
-          <p class="no-margin-para" style="font-size: 1.5em; font-weight: bold;">How it works</p>
-        </div>
-        <div class="flex-container" style="justify-content: space-around;">
-          <div>
-            <img id="how-works" src="./mail_assets/howworks.png" alt="how">
-          </div>
-        </div>
-      </div>
-      <hr color="red">
-      <div class="flex-container" style="justify-content: space-between; margin-top: 15px; flex-direction: row;">
-        <div class="flex-container-bottom" style="flex-direction: column;">
-          <div class="center-text">
-            Download the App
-          </div>
-          <div class="flex-container-bottom">
-            <div style="width: 10vw; margin: auto 0;">
-              <img id="app-link-image" src="./mail_assets/googleapp.png" alt="google play store">
-            </div>
-            <div style="width: 10vw; margin: auto 0;">
-              <img id="app-link-image" src="./mail_assets/iosapp.png" alt="apple app store">
-            </div>
-          </div>
-        </div>
-        <div class="flex-container-bottom">
-          <div style="width: 10vw; margin: auto 0;">
-            <img id="social-logo" src="./mail_assets/instagram.png" alt="google play store">
-          </div>
-          <div style="width: 10vw; margin: auto 0;">
-            <img id="social-logo" src="./mail_assets/twitter.png" alt="google play store">
-          </div>
-          <div style="width: 10vw; margin: auto 0;">
-            <img id="social-logo" src="./mail_assets/facebook.png" alt="google play store">
-          </div>
-        </div>
-      </div>
-      <img src="{{context.image_url}}" height="0px" width="0px"/>
+
+<body style="margin: 0; font-family: sans-serif;">
+  <div style="padding: 10% 20%; background-color: #e2dcdc;">
+    <div style="background-color: white;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td align="center" style="padding: 5% 0 0 0;" width="600">
+            <img src="https://user-images.githubusercontent.com/35267629/100467281-34c0b800-30f8-11eb-88c0-0a6af206fadc.png" bgcolor="#70bbd9" alt="YourOwnRoom" width="60%" style="display: block;" />
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 40px 0 10px 0;" width="600">
+            <img src="https://user-images.githubusercontent.com/35267629/100726273-c0815f80-33ea-11eb-879a-8576ec5de456.png" bgcolor="#70bbd9" alt="YourOwnRoom" width="100%" style="display: block;" />
+          </td>
+        </tr>
+        <tr>
+          <td align="center" width="600">
+            <a href="{{ context.link }}">
+              <img src="https://user-images.githubusercontent.com/35267629/100726257-bcedd880-33ea-11eb-831f-565e6e9a6426.png" bgcolor="#70bbd9" alt="Explore more" width="30%" style="display: block;" />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="50%" style="margin-bottom: 6%;">
+              <tr>
+                <td align="center">
+                  <a href="{{ context.link }}">
+                    <img src="https://user-images.githubusercontent.com/35267629/100726269-bfe8c900-33ea-11eb-8ad9-35067c417d90.png" bgcolor="#70bbd9" alt="Pune" width="100%" style="display: block;" />
+                  </a>
+                </td>
+                <td align="center">
+                  <a href="{{ context.link }}">
+                    <img src="https://user-images.githubusercontent.com/35267629/100726252-bb241500-33ea-11eb-9ecd-79964f0a3ddb.png" bgcolor="#70bbd9" alt="Banglore" width="95%" style="display: block;" />
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="font-weight: 600; font-size: 1.1em; padding-bottom: 2%;">
+            PUNE
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="80%" style="margin-bottom: 3%;">
+              <tr>
+                <td align="center">
+                  <a href="{{ context.link }}">
+                    <img src="https://user-images.githubusercontent.com/35267629/100726280-c1b28c80-33ea-11eb-90d6-fb017c0507d1.jpg" bgcolor="#70bbd9" alt="YourOwnRoom" width="70%" style="display: block;" />
+                  </a>
+                  Viman Nagar
+                </td>
+                <td align="center">
+                  <a href="{{ context.link }}">
+                    <img src="https://user-images.githubusercontent.com/35267629/100726281-c24b2300-33ea-11eb-8dc1-104db464ccce.jpg" bgcolor="#70bbd9" alt="YourOwnRoom" width="70%" style="display: block;" />
+                  </a>
+                  Wakad
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  <a href="{{ context.link }}">
+                    <img src="https://user-images.githubusercontent.com/35267629/100726267-bf503280-33ea-11eb-812a-52f4efb034c5.jpg" bgcolor="#70bbd9" alt="YourOwnRoom" width="70%" style="display: block;" />
+                  </a>  
+                  Magarpatta
+                </td>
+                <td align="center">
+                  <a href="{{ context.link }}">
+                    <img src="https://user-images.githubusercontent.com/35267629/100726265-beb79c00-33ea-11eb-9a0b-f2a965e97a18.jpg" bgcolor="#70bbd9" alt="YourOwnRoom" width="70%" style="display: block;" />
+                  </a>
+                  Kharadi
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <img src="https://user-images.githubusercontent.com/35267629/100726263-bd866f00-33ea-11eb-9117-d3fb3fee82d7.png" bgcolor="#70bbd9" alt="YourOwnRoom" width="70%" style="display: block;" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="width: 30%;">
+                  <img src="https://user-images.githubusercontent.com/35267629/100467266-2ecad700-30f8-11eb-8c12-70636a783138.png" alt="Google app" width="55vw" style="display: block;" />
+                  <img src="https://user-images.githubusercontent.com/35267629/100467275-338f8b00-30f8-11eb-9bae-3527e77250ac.png" alt="Google app" width="52vw" style="display: block; margin-left: 1%;" />
+                </td>                        
+                <td style="width: 50%;" align="center">
+                  yourownroom.com
+                </td>
+                <td>
+                  <img src="https://user-images.githubusercontent.com/35267629/100467287-37231200-30f8-11eb-8d17-bb49102fbae0.png" alt="Google app" width="15vw" style="display: block;" />
+                </td>
+                <td>
+                  <img src="https://user-images.githubusercontent.com/35267629/100467208-19ee4380-30f8-11eb-98f6-bcae1904ebb1.png" alt="Google app" width="15vw" style="display: block;" />
+                </td>
+                <td>
+                  <img src="https://user-images.githubusercontent.com/35267629/100467272-32f6f480-30f8-11eb-8e3d-5bf562e1a43b.png" alt="Google app" width="15vw" style="display: block;" />
+                </td>
+              </tr>
+            </table>            
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </body>
-</html>
