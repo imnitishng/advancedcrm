@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Parent Campaign Reports</title>
+  </head>
+
+  <body>
+    <br><br>
+    <h1>Campaign Reports</h1>
+    <ul>
+      {% for campaign in campaigns %}
+        <li><a href="{% url 'reports:single_sms_campaign_series' campaign.id %}">
+          <b style="font-size:30px">{{ campaign.name }}</b>  
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Created on {{ campaign.creation_date|date:'d-m-Y, H:iA' }}        
+
+        <br>
+        <b style="font-size:19px"><u>Campaign Description</u></b>
+        <br>{{ campaign.description }}</li>
+
+        <br>
+        <b style="font-size:19px"><u>Audience Size</u></b>
+        <br>{{ campaign.audience|length }}</li>
+        <br><br>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
