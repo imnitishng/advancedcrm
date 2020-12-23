@@ -8,10 +8,12 @@
     <br>
     <h2>Reports</h2>
     <ul>
-      <li><a href="{% url 'reports:campaigns' %}">Campaign Status</a></li>
+      <li><a href="{% url 'reports:campaigns' %}">Email Campaign Status</a></li>
+      <li><a href="{% url 'reports:campaign_series' %}">Email Campaign Series Report</a></li>
+      <li><a href="{% url 'reports:sms_campaigns' %}">SMS Campaign Status</a></li>
+      <li><a href="{% url 'reports:sms_campaign_series' %}">SMS Campaign Series Report</a></li>
       <li><a href="{% url 'reports:audience' %}">Audience / Users Status</a></li>
-      <li><a href="{% url 'reports:micromarkets' %}">Micromarkets Status</a></li>
-      <li><a href="{% url 'reports:campaign_series' %}">Campaign Series</a></li>
+      <li><a href="{% url 'reports:micromarkets' %}">Micromarkets Status</a></li>      
     </ul>
   </body>
 </html>
