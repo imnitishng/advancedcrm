@@ -22,6 +22,8 @@ def parse_campaign_users(campaign):
     
     user_ids, user_phone_numbers = [], []    
     for user_id, user in user_objects.items():
+        # Create User Stauts and update campaign info
+        update_user_status(str(user_id), str(campaign.id))
         user_ids.append(user_id)
         user_phone_numbers.append(user.phone_number)
 
@@ -110,4 +112,21 @@ def send_campaign_sms(campaign):
         return True
     return False
 
-        
+
+def update_user_status(user_id, campaign_id):
+    user = get_object_or_404(User, pk=user_id)
+    if user.participated_campaigns[0] == '':
+        user.participated_campaigns = [campaign_id]
+    elif campaign_id not in user.participated_campaigns:
+        user.participated_campaigns.append(campaign_id)
+    user.save()
+    
+    try:
+        get_object_or_404(UserStatus, pk=user_id)
+    except:
+        user = get_object_or_404(User, pk=user_id)
+        # campaign_status_empty_dict = {campaign_id: 0}
+        new_user_status = UserStatus(
+            user=user
+        )
+        new_user_status.save()
