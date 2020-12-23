@@ -5,7 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Django: Basecommand",
+            "name": "Django: Basecommand Send SMS",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "send_sms_campaigns"
+            ],
+            "django": true
+        },
+        {
+            "name": "Django: Basecommand Send Email",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",

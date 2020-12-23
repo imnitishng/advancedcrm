@@ -34,6 +34,7 @@ SERVER_IP = 'http://128.199.28.152/'
 INSTALLED_APPS = [
     'marketingemails.apps.MarketingemailsConfig',
     'reports.apps.ReportsConfig',
+    'marketingtexts.apps.MarketingtextsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
