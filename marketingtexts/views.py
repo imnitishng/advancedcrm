@@ -13,6 +13,7 @@ from marketingemails.forms import UserListForm, UserListModelForm
 from marketingemails.utils import dictionary_to_str
 from marketingemails.lib.automatic_campaigns import schedule_future_campaign
 from marketingemails.lib.send_mail import send_mass_html_mail, get_mail_data
+from marketingemails.lib.send_sms import update_user_status
 
 from .models import SMSCampaign, ScheduledSMSCampaign
 
