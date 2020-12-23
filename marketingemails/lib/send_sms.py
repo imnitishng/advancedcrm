@@ -75,6 +75,7 @@ def send_campaign_sms(campaign):
     message_data = create_text_messages(user_ids, phone_numbers, campaign)
 
     # Data is sent partially since API only accepts 500 entries at a time
+    apikey = settings.API_KEY
     atLeast1Sent = 0
     for i in range(0, len(message_data), 498):
         if i+498 < len(message_data)-1:
@@ -90,7 +91,7 @@ def send_campaign_sms(campaign):
         data =  urllib.parse.urlencode({
             'apikey': apikey, 
             'data': json_messages,
-            'test': True
+            'test': False
         })
         data = data.encode('utf-8')
 
