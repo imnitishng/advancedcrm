@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['whispering-lowlands-71883.herokuapp.com', '127.0.0.1']
 SERVER_IP = 'http://128.199.28.152/'
+API_KEY = 'iHKFXtMh4n8-D5bZr2aBNNjXvM1IdCFkBGKVeJsqYa'
 
 # Application definition
 

@@ -26,6 +26,7 @@ def users_interactions_single_campaign(all_users, campaign_id):
                 'id': user.id,
                 'name': user.name,
                 'email': user.email_address,
+                'phone_number': user.phone_number,
                 'location_of_interest': user.location_of_interest,
                 'city': user.city,
                 'email_interactions': email_interactions,
@@ -54,6 +55,7 @@ def users_interactions_all_campaigns(all_users):
             'id': user.id,
             'name': user.name,
             'email': user.email_address,
+            'phone_number': user.phone_number,
             'location_of_interest': user.location_of_interest,
             'city': user.city,
             'email_interactions': email_interactions,
@@ -93,6 +95,40 @@ def user_hit_rates(users, campaigns):
                 'user_id': user.id,
                 'name': user.name,
                 'email': user.email_address,
+                'location_of_interest': user.location_of_interest,
+                'hit_rate': 0.0
+            }
+        user_engagement_percentages.append(percent_dict)
+
+    return user_engagement_percentages
+
+
+def user_sms_hit_rates(users, campaigns):
+    user_engagement_percentages = []
+    total_campaigns = len(campaigns)
+
+    for user in users:
+        all_interactions = 0
+        for campaign in campaigns:
+            campaign_id = str(campaign.id)
+            interaction_details, interactions = users_interactions_single_campaign([user], campaign_id)
+            all_interactions += interactions
+
+        percentage = ((all_interactions)/total_campaigns) * 100
+        if interaction_details:
+            percent_dict = {
+                'user_id': interaction_details[0]['id'],
+                'name': interaction_details[0]['name'],
+                'email': interaction_details[0]['email'],
+                'phone_number': interaction_details[0]['phone_number'],
+                'location_of_interest': interaction_details[0]['location_of_interest'],
+                'hit_rate': percentage
+            }
+        else:
+            percent_dict = {
+                'user_id': user.id,
+                'name': user.name,
+                'phone_number': user.phone_number,
                 'location_of_interest': user.location_of_interest,
                 'hit_rate': 0.0
             }

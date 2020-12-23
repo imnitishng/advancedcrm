@@ -114,6 +114,7 @@ def deliver_campaign(job, job_type):
         elif job_type == 'sms':
             send_campaign_sms(next_marketing_campaign)
             send_campaign_sms(remarketing_campaign)
+        job.delete()
     else:
         # Parent Campaign
         if job_type == 'sms':
@@ -132,7 +133,7 @@ def configure_campaigns(previous_users_interactions, campaign, campaign_type):
     users_not_qualified = []
     
     for interaction in previous_users_interactions:
-        if interaction.get('total_interactions') > 1:
+        if (campaign_type == 'email' and interaction.get('total_interactions') > 1) or (campaign_type == 'sms' and interaction.get('total_interactions') >= 1):
             users_qualified.append(interaction['id'])
         else:
             users_not_qualified.append(interaction['id'])
