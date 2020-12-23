@@ -8,7 +8,7 @@ class User(models.Model):
     
     name = models.CharField(max_length=200)
     email_address = models.CharField(max_length=200)  
-    phone_number = models.CharField(max_length=20, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True, default=None)
     location_of_interest = models.CharField(max_length=100, default='NULL')  
     city = models.CharField(max_length=100, default='NULL')  
     marketing_link = models.CharField(max_length=500, default='NULL')

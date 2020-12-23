@@ -7,7 +7,9 @@ from django.template.loader import render_to_string
 from django.utils.timezone import now as timezone_now
 
 from marketingemails.models import User, UserStatus, Campaigns
-from .utils import users_interactions_single_campaign, users_interactions_all_campaigns, user_hit_rates
+from .utils import users_interactions_single_campaign, users_interactions_all_campaigns, user_hit_rates, user_sms_hit_rates
+
+from marketingtexts.models import SMSCampaign
 
 
 def index(request):
@@ -121,6 +123,67 @@ def single_campaign_series(request, parent_campaign_id):
 
         hitrate_percentages = user_hit_rates(parent_campaign_users, campaigns_sent)
         return render(request, 'reports/single_campaign_series.html', {
+            'hitrates': hitrate_percentages, 
+            'campaign': parent_campaign, 
+            'childs_sent': campaigns_sent,
+            'childs_pending': campaigns_pending})
+    else:
+        return render(request, 'reports/null_series.html', {'childs_pending': campaigns_pending})
+
+
+def sms_campaigns(request):
+    successful_campaigns = SMSCampaign.objects.all()
+    context = {
+        'campaigns': successful_campaigns
+    }
+    return render(request, 'reports/sms_campaigns.html', {'campaigns': successful_campaigns})
+
+
+def single_sms_campaign_report(request, campaign_id):
+    campaign = get_object_or_404(SMSCampaign, pk=campaign_id)
+    
+    # Get all users and filter the ones for this campaign
+    UsersDict = User.objects.in_bulk(campaign.audience)
+    all_users = list(UsersDict.values())
+    users_for_campaign, campaign_interactions = users_interactions_single_campaign(all_users, campaign_id)
+    extras = {
+        'campaign_interactions': campaign_interactions
+    }
+
+    return render(request, 'reports/sms_campaign_report.html', 
+        {'users': users_for_campaign, 'campaign': campaign, 'extras': extras})
+
+
+def sms_campaign_series(request):
+    parent_campaigns = SMSCampaign.objects.exclude(future_campaigns='').filter(parent_campaigns='')
+    context = {
+        'campaigns': parent_campaigns
+    }
+    return render(request, 'reports/sms_parent_campaigns.html', {'campaigns': parent_campaigns})
+
+
+def single_sms_campaign_series(request, parent_campaign_id):
+    parent_campaign = get_object_or_404(SMSCampaign, pk=parent_campaign_id)
+    child_campaign_ids = parent_campaign.future_campaigns
+
+    campaigns_sent = []
+    campaigns_pending = []
+    for id in child_campaign_ids:
+        child = SMSCampaign.objects.filter(pk=id, launch_datetime__lte = timezone_now())
+        if child:
+            campaigns_sent.append(SMSCampaign.objects.get(pk=id))
+        else:
+            campaigns_pending.append(SMSCampaign.objects.get(pk=id))
+    
+    campaigns_sent.append(parent_campaign)
+    if campaigns_sent:
+        parent_campaign_user_ids = parent_campaign.audience
+        parent_campaign_users = User.objects.in_bulk(parent_campaign_user_ids)
+        if parent_campaign_users:
+            parent_campaign_users = list(parent_campaign_users.values())
+
+        hitrate_percentages = user_sms_hit_rates(parent_campaign_users, campaigns_sent)
+        return render(request, 'reports/single_sms_campaign_series.html', {
             'hitrates': hitrate_percentages, 
             'campaign': parent_campaign, 
             'childs_sent': campaigns_sent,
