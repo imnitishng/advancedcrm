@@ -122,6 +122,10 @@ def deliver_campaign(job, job_type):
             status = send_campaign_sms(campaign_to_send)
             if status:
                 job.delete()
+        elif job_type == 'email':
+            campaign_to_send = job.campaign
+            status = send_campaign_mails(campaign_to_send)
+            job.delete()
     
     
 def configure_campaigns(previous_users_interactions, campaign, campaign_type):

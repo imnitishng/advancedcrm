@@ -20,7 +20,7 @@ class Command(BaseCommand):
         if campaign_jobs_to_deliver:
             i = 0
             for job in campaign_jobs_to_deliver:
-                deliver_campaign(job)
+                deliver_campaign(job, 'email')
                 i += 1
             print(f'Sent {i} emails! Exiting.')
         else:

@@ -36,9 +36,10 @@ def audience_select(request):
     campaign.save()
     request.session['campaign_id'] = str(campaign.id)
     request.session['future_campaigns_count'] = request.POST.get('auto_campaigns_count')    
-    # users = get_list_or_404(User, phone_number__isnull=False)
+
     users = User.objects.filter(phone_number__isnull=False).exclude(phone_number='')
-    return render(request, 'marketingtexts/audience_select.html', {'users': users[:100], 'campaign': campaign})
+    return render(request, 'marketingtexts/audience_select.html', 
+        {'users': users[:100], 'campaign': campaign, 'valid_users': len(users)})
 
 
 def sendsms(request):
@@ -49,7 +50,7 @@ def sendsms(request):
         last_idx = int(request.POST.get('last_idx'))
         user_pkids = list(User.objects.filter(phone_number__isnull=False).exclude(phone_number='').values_list('id', flat=True))
 
-        if last_idx <= start_idx or last_idx >= len(user_pkids) or start_idx >= len(user_pkids):
+        if last_idx <= start_idx or last_idx > len(user_pkids) or start_idx >= len(user_pkids) or len(user_pkids) == 0:
             return HttpResponseBadRequest('Index was not properly specified. Try Again')
         else:
             user_pkids = user_pkids[start_idx:last_idx]

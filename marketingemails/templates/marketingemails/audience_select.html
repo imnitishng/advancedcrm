@@ -28,9 +28,24 @@
       <h3> Select audience for {{ campaign.name }}  </h3>
       <form action="{% url 'marketingemails:mailsent' %}" method="post">
         {% csrf_token %}
+        <h4>Send campaigns based on user index - </h4>
+        This campaign will be sent out to users from the start index number to end index number (both inclusive)
+        <br><br>
+        <label for='start_idx'>Start index:</label><br>
+        <input type="number" id="start_idx" name="start_idx" min="1"><br>
+        <label for='last_idx'>Last index:</label><br>
+        <input type="number" id="last_idx" name="last_idx" min="1"><br>
+        Total eligible users present in database = <b>{{ valid_users }}</b>
+        <br>
+        Please use proper last index number within this bound to avoid errors.
+
+        <br><br>
+        <h4>Send campaigns to every eligible user in the database - </h4>
         <input type="checkbox" id="select_all_users" name="select_all_users" value="1">
         <label for="select_all_users">Send to every user </label>
         <br><br>
+
+        <h4>Send campaigns to individual users - </h4>
         <table>
           <tr>
             <th>Selected</th>

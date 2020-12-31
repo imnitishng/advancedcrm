@@ -22,7 +22,8 @@
             "args": [
                 "send_campaigns"
             ],
-            "django": true
+            "django": true,
+            "justMyCode": true
         },
         {
             "name": "Python: Django",
