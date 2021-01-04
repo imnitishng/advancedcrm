@@ -8,7 +8,7 @@ from django.core.mail import get_connection, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from PIL import Image
 
-from .models import User, UserStatus, Campaigns
+from .models import User, UserStatus, Campaigns, ScheduledCampaign
 from .forms import UserListForm, UserListModelForm
 from .utils import dictionary_to_str
 from .lib.automatic_campaigns import schedule_future_campaign
@@ -21,12 +21,21 @@ def index(request):
 
 def create(request):
     users = get_list_or_404(User, email_address__isnull=False)
-    return render(request, 'marketingemails/create_campaign.html', {'users': users})
+    return render(request, 'marketingemails/create_campaign.html', {'users': users[:100]})
 
 
 def sendmail(request):
     if request.POST.get('select_all_users'):
-        user_pkids = list(User.objects.all().values_list('id', flat=True))
+        user_pkids = list(User.objects.filter(email_address__isnull=False).exclude(email_address='').values_list('id', flat=True))
+    elif request.POST.get('start_idx', None) or request.POST.get('last_idx', None):
+        start_idx = int(request.POST.get('start_idx'))
+        last_idx = int(request.POST.get('last_idx'))
+        user_pkids = list(User.objects.filter(email_address__isnull=False).exclude(email_address='').values_list('id', flat=True))
+
+        if last_idx <= start_idx or last_idx > len(user_pkids) or start_idx >= len(user_pkids) or len(user_pkids) == 0:
+            return HttpResponseBadRequest('Index was not properly specified. Try Again')
+        else:
+            user_pkids = user_pkids[start_idx:last_idx]
     else:
         user_pkids = request.POST.getlist('user_selected')
     
@@ -39,12 +48,14 @@ def sendmail(request):
     campaign.save()
 
     # Add dummy future campaigns and queue them to be sent
-    schedule_future_campaign(future_campaigns_count, user_pkids, campaign)
+    schedule_future_campaign(future_campaigns_count, user_pkids, campaign, 'emails')
+    scheduled_current_campaign = ScheduledCampaign(
+        scheduled_timestamp = timezone.now(),
+        campaign=campaign
+    )
+    scheduled_current_campaign.save()
 
-    users_to_mail_data = get_mail_data(user_pkids, campaign, request)
-    
-    while send_mass_html_mail(users_to_mail_data):
-        return render(request, 'marketingemails/testmailsent.html')
+    return render(request, 'marketingemails/testmailsent.html')
 
 
 def audience_select(request):
@@ -61,8 +72,9 @@ def audience_select(request):
     request.session['campaign_id'] = str(campaign.id)
     request.session['future_campaigns_count'] = request.POST.get('auto_campaigns_count')
     
-    users = get_list_or_404(User, email_address__isnull=False)
-    return render(request, 'marketingemails/audience_select.html', {'users': users, 'campaign': campaign})
+    users = User.objects.filter(email_address__isnull=False).exclude(email_address='')
+    return render(request, 'marketingemails/audience_select.html', 
+        {'users': users[:100], 'campaign': campaign, 'valid_users': len(users)})
 
 
 def image_load(request, campaign_id, user_id):

@@ -32,19 +32,19 @@ def select_email_type(campaign, user, context):
     user_first_name = user.name.split(' ')[0]
     if campaign.campaign_type == 1:
         subject = f"Hi {user_first_name}! Have a look at some properties on YourOwnRoom."
-        html_content = render_to_string('mails/campaign1.html', {'context': context})
+        html_content = render_to_string('mails/campaign3.html', {'context': context})
     elif campaign.campaign_type == 2:
         subject = f"Hi {user_first_name}! Here are some handpicked recommendations for you."
-        html_content = render_to_string('mails/campaign2.html', {'context': context})
+        html_content = render_to_string('mails/campaign1.html', {'context': context})
     elif campaign.campaign_type == 3:
         subject = f"Hi {user_first_name}! Here are some handpicked recommendations for you."
-        html_content = render_to_string('mails/campaign3.html', {'context': context})
+        html_content = render_to_string('mails/campaign2.html', {'context': context})
     elif campaign.campaign_type == 99:
         subject = "Seems like you're lost"
-        html_content = render_to_string('mails/campaign1.html', {'context': context})
+        html_content = render_to_string('mails/campaign3.html', {'context': context})
     else:
         subject = "YourOwnRoom recommendations"
-        html_content = render_to_string('mails/campaign1.html', {'context': context})
+        html_content = render_to_string('mails/campaign3.html', {'context': context})
     
     return subject, html_content
 
@@ -106,7 +106,7 @@ def get_mail_data(user_pkids, campaign, request):
             new_user_status.save()
 
         subject, text_mail, html_mail = build_email(user, campaign, request)
-        users_to_mail_data.append((subject, text_mail, html_mail, 'imnitish.ng@gmail.com', user.email_address))
+        users_to_mail_data.append((subject, text_mail, html_mail, 'marketing@yourownroom.com', user.email_address))
     
     return users_to_mail_data
 
@@ -115,4 +115,6 @@ def send_campaign_mails(campaign):
     users = campaign.audience
     if users:
         users_to_mail_data = get_mail_data(users, campaign, None)
-        send_mass_html_mail(users_to_mail_data)
+        sent_count = send_mass_html_mail(users_to_mail_data)
+        return sent_count
+    return 0
