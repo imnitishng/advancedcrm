@@ -9,7 +9,7 @@ from django.utils.timezone import now as timezone_now
 from marketingemails.models import User
 
 class Command(BaseCommand):
-    help = 'Import users from a .csv file'
+    help = 'Import users from a .csv file to the Django Models. Format: name|email|city|link_to_send'
 
     def add_arguments(self, parser):
         parser.add_argument('file', help="path to .csv file")
@@ -42,7 +42,7 @@ class Command(BaseCommand):
             while c:
                 user_csv = next(rows)
                 user_to_save = User(
-                    name = user_csv[0],
+                    name = user_csv[0] +' ' + user_csv[1],
                     email_address = user_csv[-1],
                     city = user_csv[2],
                     marketing_link='https://yourownroom.com/',

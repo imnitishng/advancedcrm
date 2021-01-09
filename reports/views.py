@@ -17,6 +17,9 @@ def index(request):
 
 
 def campaigns(request):
+    '''
+    Render list of all the campaigns ever sent
+    '''
     successful_campaigns = Campaigns.objects.all()
     context = {
         'campaigns': successful_campaigns
@@ -25,6 +28,9 @@ def campaigns(request):
 
 
 def single_campaign_report(request, campaign_id):
+    '''
+    Render reports for a single campaign
+    '''
     campaign = get_object_or_404(Campaigns, pk=campaign_id)
     
     # Get all users and filter the ones for this campaign
@@ -39,6 +45,9 @@ def single_campaign_report(request, campaign_id):
 
     
 def audience(request):
+    '''
+    Renders the HTML view for every user present in the database alognside their interactions
+    '''
     users = User.objects.all()
     users_status = UserStatus.objects.all()
     users_interaction = users_interactions_all_campaigns(users)
@@ -46,6 +55,9 @@ def audience(request):
 
 
 def single_user_view(request, user_id):
+    '''
+    Renders view for a single user with the campaigns they have participated in
+    '''
     user = get_object_or_404(User, pk=user_id)
     user_status = get_object_or_404(UserStatus, pk=user_id)
     user_campaign_dict = {}
@@ -62,6 +74,9 @@ def single_user_view(request, user_id):
 
 
 def micromarkets(request):
+    '''
+    Renders view for each city and it's interactions.
+    '''
     users = User.objects.all()
     user_interactions = users_interactions_all_campaigns(users)
     city_map, subregion_map, subregion_to_city = {}, {}, {}
@@ -88,12 +103,19 @@ def micromarkets(request):
         
 
 def single_micromarket(request, subregion):
+    '''
+    Renders view for single micromarket and the users that have participated in it.
+    '''
     users_for_location = User.objects.filter(location_of_interest=subregion)
     users_interaction = users_interactions_all_campaigns(users_for_location)
     return render(request, 'reports/single_location.html', {'users': users_interaction, 'subregion': subregion})
 
 
 def campaign_series(request):
+    '''
+    Campaign series is a series of marketing campaigns that are dispatched automatically, these
+    campaigns are listed under this view and further information is displayed here.
+    '''
     parent_campaigns = Campaigns.objects.exclude(future_campaigns='').filter(parent_campaigns='')
     context = {
         'campaigns': parent_campaigns
@@ -102,6 +124,10 @@ def campaign_series(request):
 
 
 def single_campaign_series(request, parent_campaign_id):
+    '''
+    A single campaign series view displays information of the campaigns within this series alongwith the 
+    dates and status of the campaigns
+    '''
     parent_campaign = get_object_or_404(Campaigns, pk=parent_campaign_id)
     child_campaign_ids = parent_campaign.future_campaigns
 
@@ -132,6 +158,9 @@ def single_campaign_series(request, parent_campaign_id):
 
 
 def sms_campaigns(request):
+    '''
+    This view and below defined views are analogous to the email campaign views only for the SMS views.
+    '''
     successful_campaigns = SMSCampaign.objects.all()
     context = {
         'campaigns': successful_campaigns

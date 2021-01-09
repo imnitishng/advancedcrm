@@ -5,6 +5,10 @@ from .customModelFields import CommaSepField, HashmapField
 
 
 class User(models.Model):
+    '''
+    User is the main entity for our application, a single user stores all the 
+    relevant information about the user and the campaigns he has participated in.
+    '''
     
     name = models.CharField(max_length=200)
     email_address = models.CharField(max_length=200)  
@@ -47,6 +51,11 @@ class Campaigns(models.Model):
 
 
 class UserStatus(models.Model):
+    '''
+    User status corresponds to the activity that the user does with the campaigns that are sent to him.
+    This model is related to `User` by a one-to-one mapping.
+    '''
+
 
     user = models.OneToOneField(
         User,
@@ -62,6 +71,9 @@ class UserStatus(models.Model):
 
 
 class AbstractScheduledJob(models.Model):
+    '''
+    Abstract class to instantiate any scheduled job dispatched from the application
+    '''
     scheduled_timestamp: datetime.datetime = models.DateTimeField(db_index=True)
     data: str = models.TextField()
 
@@ -70,6 +82,11 @@ class AbstractScheduledJob(models.Model):
 
 
 class ScheduledCampaign(AbstractScheduledJob):
+    '''
+    Scheduled campaigns store the timestamp and additional information and related to the campaign that 
+    will be scheduled to future.
+    '''
+
     campaign = models.OneToOneField(
         Campaigns,
         on_delete=models.CASCADE,

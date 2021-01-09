@@ -4,7 +4,10 @@ from marketingemails.customModelFields import CommaSepField, HashmapField
 from marketingemails.models import AbstractScheduledJob
 
 
-class SMSCampaign(models.Model):    
+class SMSCampaign(models.Model): 
+    '''
+    This model is analogous to the Campaign model from the email campaigns
+    '''
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=20000)
     creation_date = models.DateTimeField('date published')
@@ -20,6 +23,9 @@ class SMSCampaign(models.Model):
 
 
 class ScheduledSMSCampaign(AbstractScheduledJob):
+    '''
+    Scheduled SMS job for the SMS campaigns
+    '''
     campaign = models.OneToOneField(
         SMSCampaign,
         on_delete=models.CASCADE,

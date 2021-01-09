@@ -20,11 +20,19 @@ def index(request):
 
 
 def create(request):
+    '''
+    Renders basic form to create a campaign and configure campaign related options.
+    '''
     users = get_list_or_404(User, email_address__isnull=False)
     return render(request, 'marketingemails/create_campaign.html', {'users': users[:100]})
 
 
 def sendmail(request):
+    '''
+    Renders the campaign success page after dispatching a campaign.
+    The request recieved stores information about users selected, these users are fetched and 
+    the camapaign is scheduled to be triggered.
+    '''
     if request.POST.get('select_all_users'):
         user_pkids = list(User.objects.filter(email_address__isnull=False).exclude(email_address='').values_list('id', flat=True))
     elif request.POST.get('start_idx', None) or request.POST.get('last_idx', None):
